@@ -1,0 +1,4 @@
+#!/bin/bash
+
+URL=http://traffic.libsyn.com/democracynow/dn$(date +%Y-%m%d-1.mp3)
+mplayer $URL

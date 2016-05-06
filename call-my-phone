@@ -1,0 +1,64 @@
+#!/bin/bash
+
+#
+# Find your cell phone
+#
+#
+
+
+PHONE=""
+DELAY="0"
+
+usage()
+{
+    echo "Use this script to find your phone"
+    echo ""
+    echo "./call-my-phone.sh"
+    echo -e "\t-h --help"
+    echo -e "\t--phone=$PHONE *area code included*"
+    echo -e "\t--delay=$DELAY *seconds to wait before calling: 0, 30, 60, 120, 300*"
+    echo ""
+}
+
+while [ "$1" != "" ]; do
+    PARAM=`echo $1 | awk -F= '{print $1}'`
+    VALUE=`echo $1 | awk -F= '{print $2}'`
+    case $PARAM in
+        -h | --help)
+            usage
+            exit
+            ;;
+        --phone)
+            PHONE=$VALUE
+            ;;
+        --delay)
+            DELAY=$VALUE
+            ;;
+        *)
+            echo "ERROR: unknown parameter \"$PARAM\""
+            usage
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+verify()
+{
+    if [[ ${#PHONE} -eq 10 ]];
+    then
+        call
+    else
+        echo "--phone option needs to be 10 digits."
+        echo "did you include the area code?"
+    fi
+}
+
+call()
+{
+    params="noArea=${PHONE:0:3}&noNumb=${PHONE:3:10}&noWhen=$DELAY"
+    curl -X POST -d $params "http://www.wheresmycellphone.com/" -o /dev/null
+    echo "Calling $PHONE in $DELAY seconds..."
+}
+
+verify

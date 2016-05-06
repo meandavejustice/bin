@@ -1,0 +1,3 @@
+#!/bin/sh
+
+/opt/firefox_dev/firefox

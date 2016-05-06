@@ -1,0 +1,3 @@
+#!/bin/bash
+
+curl -X POST http://www.jamapi.xyz/ -d url=http://news.ycombinator.com -d json_data='{"title": "title","paragraphs": [{ "elem": "td.title a", "value": "text", "location": "href"}]}'

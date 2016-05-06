@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Skip DASH manifest for speed purposes. This might actually disable
+# being able to specify things like 'bestaudio' as the requested format,
+# but try anyway.
+# Use "$*" so that quoting the requested song isn't necessary.
+youtube-dl --default-search=ytsearch: \
+           --youtube-skip-dash-manifest \
+           --output="${TMPDIR:-/tmp/}%(title)s-%(id)s.%(ext)s" \
+           --restrict-filenames \
+           --format="bestaudio[ext!=webm]" \
+           --exec=mplayer "$*"
